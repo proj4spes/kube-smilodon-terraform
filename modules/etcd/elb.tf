@@ -21,7 +21,7 @@ resource "aws_elb" "external" {
   }
 
   security_groups = [ "${ var.external-elb-security-group-id }" ]
-  subnets = [ "${ var.subnet-id-public }" ]
+  subnets = [ "${ split (",",var.subnet-id-public) }" ]
 
   tags {
     builtWith = "terraform"
@@ -34,9 +34,10 @@ resource "aws_elb" "external" {
   }
 }
 
-resource "aws_elb_attachment" "master" {
-  count = "${ length( split(",", var.etcd-ips) ) }"
+#resource "aws_elb_attachment" "master" {
+  #count = "${ length( split(",", var.etcd-ips) ) }"
 
-  elb      = "${ aws_elb.external.id }"
-  instance = "${ element(aws_instance.etcd.*.id, count.index) }"
-}
+  #elb      = "${ aws_elb.external.id }"
+#  instance = "${ element(aws_instance.etcd.*.id, count.index) }"
+#  instance = "${ element(aws_instance.etcd.*.id, count.index) }"
+#}

@@ -33,11 +33,11 @@ coreos:
             [Service]
             Environment="ETCD_SSL_DIR=/etc/kubernetes/ssl"
             Environment="ETCD_CERT_FILE=/etc/ssl/certs/k8s-worker.pem"
-            Environment="ETCD_CLIENT_CERT_AUTH=TRUE"
+            Environment="ETCD_CLIENT_CERT_AUTH=true"
             Environment="ETCD_DISCOVERY_SRV=${ internal-tld }"
             Environment="ETCD_KEY_FILE=/etc/ssl/certs/k8s-worker-key.pem"
             Environment="ETCD_PEER_CERT_FILE=/etc/ssl/certs/k8s-worker.pem"
-            Environment="ETCD_PEER_CLIENT_AUTH=true"
+            Environment="ETCD_PEER_CLIENT_CERT_AUTH=true"
             Environment="ETCD_PEER_KEY_FILE=/etc/ssl/certs/k8s-worker-key.pem"
             Environment="ETCD_PEER_TRUSTED_CA_FILE=/etc/ssl/certs/ca.pem"
             Environment="ETCD_PROXY=on"

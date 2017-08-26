@@ -37,7 +37,7 @@ module "pki" {
   depends-id = "${ module.vpc.depends-id }"
 
   # variables
-  ami-id = "${ var.coreos-aws["ami"] }"
+  ami-id = "${ var.coreos-aws["ami-worker"] }"
   aws = "${ var.aws }"
   cidr-vpc = "${ var.cidr["vpc"] }"
   instance-type = "${ var.instance-type["pki"] }"
@@ -85,7 +85,7 @@ module "bastion" {
   depends-id = "${ module.vpc.depends-id }"
 
   # variables
-  ami-id = "${ var.coreos-aws["ami"] }"
+  ami-id = "${ var.coreos-aws["ami-etcd"] }"
   instance-type = "${ var.instance-type["bastion"] }"
   internal-tld = "${ var.internal-tld }"
   key-name = "${ var.aws["key-name"] }"
@@ -105,7 +105,7 @@ module "etcd" {
   depends-id = "${ module.route53.depends-id }"
 
   # variables
-  ami-id = "${ var.coreos-aws["ami"] }"
+  ami-id = "${ var.coreos-aws["ami-etcd"] }"
   aws = "${ var.aws }"
   cluster-domain = "${ var.cluster-domain }"
   dns-service-ip = "${ var.dns-service-ip }"
@@ -118,13 +118,21 @@ module "etcd" {
   pod-ip-range = "${ var.cidr["pods"] }"
   service-cluster-ip-range = "${ var.cidr["service-cluster"] }"
 
+  azs = "${ var.aws["azs"] }"
+  etcd-gtwy = "${ var.etcd-gtwy }"
+
   # modules
+  route53-internal-zone-id ="${ module.route53.internal-zone-id}"
+ 
   etcd-security-group-id = "${ module.security.etcd-id }"
   external-elb-security-group-id = "${ module.security.external-elb-id }"
   instance-profile-name = "${ module.iam.instance-profile-name-master }"
   s3-bucket = "${ module.s3.bucket }"
-  subnet-id-private = "${ element( split(",", module.vpc.subnet-ids-private), 0 ) }"
-  subnet-id-public = "${ element( split(",", module.vpc.subnet-ids-public), 0 ) }"
+  subnet-id-private = "${ module.vpc.subnet-ids-private }"
+  subnet-id-private_etcd = "${ module.vpc.subnet-ids-private_etcd }"
+  #subnet-id-private = "${ element( split(",", module.vpc.subnet-ids-private), 0 ) }"
+  subnet-id-public = "${ module.vpc.subnet-ids-public }"
+  #subnet-id-public = "${ element( split(",", module.vpc.subnet-ids-public), 0 ) }"
   vpc-id = "${ module.vpc.id }"
 }
 
@@ -133,7 +141,7 @@ module "worker" {
   depends-id = "${ module.route53.depends-id }"
 
   # variables
-  ami-id = "${ var.coreos-aws["ami"] }"
+  ami-id = "${ var.coreos-aws["ami-worker"] }"
   aws = "${ var.aws }"
   capacity = {
     desired = 3
@@ -156,6 +164,7 @@ module "worker" {
   instance-profile-name = "${ module.iam.instance-profile-name-worker }"
   s3-bucket = "${ module.s3.bucket }"
   security-group-id = "${ module.security.worker-id }"
-  subnet-id = "${ element( split(",", module.vpc.subnet-ids-private), 0 ) }"
+  subnet-id = "${ module.vpc.subnet-ids-private }"
+  #subnet-id = "${ element( split(",", module.vpc.subnet-ids-private), 0 ) }"
   vpc-id = "${ module.vpc.id }"
 }

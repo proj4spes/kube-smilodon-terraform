@@ -2,6 +2,9 @@
 
 [![Circle CI](https://circleci.com/gh/kz8s/tack.svg?style=svg)](https://circleci.com/gh/kz8s/tack)
 
+Inspired by Tack . Better than Tack : High available cluster where Master and etcd nodes are really on different AZs (at least three).
+Etcd and Master nodes ins ASG using [Smilodon](https://://github.com/UKHomeOffice/smilodon) to mantain  etcd data/dir and Ip addresses
+Worker nodes are deployed in three (at least) AZs .
 Opinionated [Terraform](https://terraform.io) module for creating a Highly Available [Kubernetes](http://kubernetes.io) cluster running on
 [Container Linux by CoreOS](https://coreos.com) (any channel) in an [AWS
 Virtual Private Cloud VPC](https://aws.amazon.com/vpc/). With prerequisites
@@ -140,11 +143,11 @@ make clean
 `make all` and `make clean` should be idempotent - should an error occur simply try running
 the command again and things should recover from that point.
 
-## How Tack works
+## How KST works
 
-### Tack Phases
+### KST Phases
 
-Tack works in three phases:
+KST works in three phases:
 
 1. Pre-Terraform
 2. Terraform
@@ -159,7 +162,7 @@ with a simple shell script.
 
 #### Terraform
 
-Terraform does the heavy lifting of resource creation and sequencing. Tack uses local
+Terraform does the heavy lifting of resource creation and sequencing. KST uses local
 modules to partition the work in a logical way. Although it is of course possible to do all
 of the Terraform work in a single `.tf` file or collection of `.tf` files, it becomes
 unwieldy quickly and impossible to debug. Breaking the work into local modules makes the
@@ -172,7 +175,7 @@ to settle. Waiting for the 'master' ELB to become healthy is an example of this.
 
 ### Components
 
-Like many great tools, _tack_ has started out as a collection of scripts, makefiles and other tools. As _tack_ matures and patterns crystalize it will evolve to a Terraform plugin and perhaps a Go-based cli tool for 'init-ing' new cluster configurations. The tooling will compose Terraform modules into a solution based on user preferences - think `npm init` or better yet [yeoman](http://yeoman.io/).
+Like many great tools, _Kst_ has started out as a collection of scripts, makefiles and other tools. As _Kst__ matures and patterns crystalize it will evolve to a Terraform plugin and perhaps a Go-based cli tool for 'init-ing' new cluster configurations. The tooling will compose Terraform modules into a solution based on user preferences - think `npm init` or better yet [yeoman](http://yeoman.io/).
 
 #### TLS Certificates
 
@@ -198,13 +201,13 @@ Starting to serve on localhost:8001
 
 ## FAQs
 
-* [Create an etcd cluster with more than 3 instances](https://github.com/kz8s/tack/wiki/How-to:-change-etcd-cluster-size)
+* [Create an etcd cluster with more than 3 instances](https://github.com/kz8s/kst/wiki/How-to:-change-etcd-cluster-size)
 
 ## Advanced Features and Configuration
 
 ### Using an Existing VPC
 
-If you have an existing VPC you'd like to deploy a cluster into, there is an option for this with _tack_.
+If you have an existing VPC you'd like to deploy a cluster into, there is an option for this with _Kst_.
 
 #### Constraints
 
@@ -227,7 +230,7 @@ If you have an existing VPC you'd like to deploy a cluster into, there is an opt
 
 #### Testing Existing VPC Support from Scratch
 
-In order to test existing VPC support, we need to generate a VPC and then try the overrides with it. After that we can clean it all up.  These instructions are meant for someone wanting to ensure that the _tack_ existing VPC code works properly.
+In order to test existing VPC support, we need to generate a VPC and then try the overrides with it. After that we can clean it all up.  These instructions are meant for someone wanting to ensure that the _Kst_ existing VPC code works properly.
 * Run `make all` to generate a VPC with Terraform
 * Edit terraform.tfstate
   * Search for the VPC block and cut it out and save it somewhere.  Look for "path": ["root","vpc"]

@@ -27,12 +27,13 @@ variable "coreos-aws" {
 }
 variable "dns-service-ip" { default = "10.3.0.10" }
 variable "etcd-ips" { default = "10.0.10.10,10.0.10.11,10.0.10.12" }
+variable "etcd-gtwy" { default = "10.0.10.1,10.0.11.1,10.0.12.1" }
 variable "instance-type" {
   default = {
-    bastion = "t2.nano"
-    pki = "t2.nano"
-    etcd = "m3.large"
-    worker = "m3.large"
+    bastion = "t2.micro"
+    pki = "t2.micro"
+    etcd = "t2.small"
+    worker = "t2.micro"
   }
 }
 variable "internal-tld" {}

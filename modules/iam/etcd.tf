@@ -37,6 +37,7 @@ resource "aws_iam_role_policy" "master" {
     },
     {
       "Action": [
+        "ec2:*",
         "ec2:AttachVolume",
         "ec2:CreateTags",
         "ec2:CreateVolume",
@@ -44,7 +45,14 @@ resource "aws_iam_role_policy" "master" {
         "ec2:Describe*",
         "ec2:DescribeInstances",
         "ec2:DetachVolume",
-        "elasticloadbalancing:*"
+        "elasticloadbalancing:*",
+ 	"ec2:CreateNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DetachNetworkInterface",
+        "ec2:DeleteNetworkInterface",
+        "ec2:AttachNetworkInterface",
+        "ec2:ModifyNetworkInterfaceAttribute",
+        "autoscaling:CompleteLifecycleAction"
         ],
       "Effect": "Allow",
       "Resource": [ "*" ]

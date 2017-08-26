@@ -17,6 +17,6 @@ resource "aws_vpc" "main" {
 resource "null_resource" "dummy_dependency" {
   depends_on = [
     "aws_vpc.main",
-    "aws_nat_gateway.nat"
+     "aws_instance.nat"
   ]
 }

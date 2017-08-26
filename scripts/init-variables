@@ -17,12 +17,14 @@ echo $CIDR_SERVICE_CLUSTER
 echo $K8S_SERVICE_IP
 echo $K8S_DNS_IP
 echo $ETCD_IPS
+echo $ETCD_GTWY
 echo $HYPERKUBE_IMAGE
 echo $HYPERKUBE_TAG
 echo $PKI_IP
 
 set +x
 
+COREOS_AMI_ID_EP=ami-8b2ec9f2
 COREOS_AMI_ID=`curl -s \
   $(printf "http://%s.release.core-os.net/amd64-usr/current/coreos_production_ami_%s_%s.txt" \
     $COREOS_CHANNEL $COREOS_VM_TYPE $AWS_REGION)`
@@ -52,7 +54,9 @@ cidr = {
   vpc = "${CIDR_VPC}"
 }
 coreos-aws = {
-  ami = "${COREOS_AMI_ID}"
+  ami-etcd = "${COREOS_AMI_ID_EP}"
+  ami-master = "${COREOS_AMI_ID_EP}"
+  ami-worker = "${COREOS_AMI_ID}"
   channel = "${COREOS_CHANNEL}"
   type = "${COREOS_VM_TYPE}"
 }
@@ -67,6 +71,7 @@ name = "${CLUSTER_NAME}"
 pki-ip = "${PKI_IP}"
 s3-bucket = "${AWS_ACCOUNT_ID}-${CLUSTER_NAME}-${AWS_REGION}"
 etcd-ips = "$ETCD_IPS"
+etcd-gtwy = "$ETCD_GTWY"
 EOF
 
 if [ -f ./vpc-existing.tfvars ]; then cat ./vpc-existing.tfvars >>terraform.tfvars ; fi

@@ -22,7 +22,7 @@ export DIR_KUBECONFIG := .kube
 
 # ∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨
 
-export AWS_REGION           ?= us-west-2
+export AWS_REGION           ?= eu-west-1
 export COREOS_CHANNEL       ?= stable
 export COREOS_VM_TYPE       ?= hvm
 export CLUSTER_NAME         ?= test
@@ -41,9 +41,11 @@ export CIDR_SERVICE_CLUSTER ?= 10.3.0.0/24
 export K8S_SERVICE_IP       ?= 10.3.0.1
 export K8S_DNS_IP           ?= 10.3.0.10
 
-export ETCD_IPS             ?= 10.0.10.10,10.0.10.11,10.0.10.12
+export ETCD_IPS             ?= 10.0.20.10,10.0.21.10,10.0.22.10
+export ETCD_GTWY            ?= 10.0.10.1,10.0.11.1,10.0.12.1
 
-export PKI_IP               ?= 10.0.10.9
+
+export PKI_IP               ?= 10.0.20.9
 
 # Alternative:
 # CIDR_PODS ?= "172.15.0.0/16"
@@ -102,7 +104,7 @@ clean: destroy delete-keypair
 create-addons:
 	scripts/create-kube-dns-service
 	scripts/create-kube-system-configmap
-	kubectl apply --recursive -f addons
+	#kubectl apply --recursive -f addons
 
 create-admin-certificate: ; @scripts/do-task "create admin certificate" \
 	scripts/create-admin-certificate
