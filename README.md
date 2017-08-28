@@ -5,6 +5,9 @@
 Inspired by Tack . Better than Tack : High available cluster where Master and etcd nodes are really on different AZs (at least three).
 Etcd and Master nodes ins ASG using [Smilodon](https://://github.com/UKHomeOffice/smilodon) to mantain  etcd data/dir and Ip addresses
 Worker nodes are deployed in three (at least) AZs .
+NAT Gateway service has been changed with a NAT istance and will be optionally activated according an enviroment variable .
+The etcd/master nodes  ccan be (for a development/test enviroment ) can be of T2.micro type  but for closer to production enviroment tests t2.small(or medium) are suggested.  
+
 Opinionated [Terraform](https://terraform.io) module for creating a Highly Available [Kubernetes](http://kubernetes.io) cluster running on
 [Container Linux by CoreOS](https://coreos.com) (any channel) in an [AWS
 Virtual Private Cloud VPC](https://aws.amazon.com/vpc/). With prerequisites
@@ -50,8 +53,9 @@ creation
 * AWS VPC Public and Private subnets
 * IAM protected S3 bucket for asset distribution
 * Bastion Host
+* Multi-AZ Auto-Scaling Etcd/Master Nodes with Smilodon support
 * Multi-AZ Auto-Scaling Worker Nodes
-* [NAT Gateway](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html)
+* [NAT Istance or Gateway](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html)
 
 ### Container Linux by CoreOS (1353.7.0, 1381.1.0, 1381.0.0)
 * etcd3 DNS Discovery Bootstrap
@@ -247,6 +251,7 @@ In order to test existing VPC support, we need to generate a VPC and then try th
 
 ## Inspiration
 
+* [Code examples to use Smilodon system to create an ASG etcd/KubeMaster persistent cluster](https://github.com/UKHomeOffice/keto) by [Vaidas UKHomeOffice](https://github.com/UKHomeOffice/keto)
 * [Code examples to create Container Linux by CoreOS cluster on AWS with Terraform](https://github.com/xuwang/aws-terraform) by [xuwang](https://github.com/xuwang)
 * [kaws: tool for deploying multiple Kubernetes clusters](https://github.com/InQuicker/kaws)
 * [Kubernetes on Container Linux by CoreOS](https://github.com/coreos/coreos-kubernetes)
