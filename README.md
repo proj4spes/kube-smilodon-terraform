@@ -19,7 +19,7 @@ The default configuration includes Kubernetes
 [add-ons](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons):
 DNS, Dashboard and UI.
 
-## tl;dr
+##How to use
 ```bash
 # prereqs
 $ brew update && brew install awscli cfssl jq kubernetes-cli terraform
@@ -75,7 +75,7 @@ creation
 * [jq](https://stedolan.github.io/jq/)
 * [kubectl](http://kubernetes.io/v1.1/docs/user-guide/kubectl-overview.html)
 * [Terraform](https://www.terraform.io/)
-
+* Remark : Due to AWS/Terraform user_data limits and faults it is not possible to manage User_data template greater than 13KB. So for now a pre-configured (with configuration   STATIC files already present) . To see how generate this AMI  see the file cloud-config1.yml.file_ami in etcd module or use my ami ami-3c0bfe45. This ami is used only for master/etcd instances.
 Quick install prerequisites on Mac OS X with [Homebrew](http://brew.sh/):
 
 ```bash
@@ -179,11 +179,13 @@ to settle. Waiting for the 'master' ELB to become healthy is an example of this.
 
 ### Components
 
-Like many great tools, _Kst_ has started out as a collection of scripts, makefiles and other tools. As _Kst__ matures and patterns crystalize it will evolve to a Terraform plugin and perhaps a Go-based cli tool for 'init-ing' new cluster configurations. The tooling will compose Terraform modules into a solution based on user preferences - think `npm init` or better yet [yeoman](http://yeoman.io/).
+_Kst_ has started out as a collection of scripts, makefiles and other tools. The script and Makefiles could bue also a wrapper to manage more then one cluster and its state , saving on a remote and safe storage(s3) for example. The tooling will compose Terraform modules into a solution based on user preferences - think `npm init` or better yet [yeoman](http://yeoman.io/).
 
-#### TLS Certificates
+##a## ETCD3 
 
 * [etcd3 coreos cloudint](https://github.com/coreos/coreos-cloudinit/blob/master/config/etcd.go)
+
+#### TLS Certificates
 
 ```bash
 curl --cacert /etc/kubernetes/ssl/ca.pem --cert /etc/kubernetes/ssl/k8s-etcd.pem --key /etc/kubernetes/ssl/k8s-etcd-key.pem https://etcd.test.kz8s:2379/health
